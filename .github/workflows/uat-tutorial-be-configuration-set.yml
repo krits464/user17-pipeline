@@ -1,4 +1,4 @@
-name: DEV - Tutorial BE Configuration
+name: UAT - Tutorial BE Configuration
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ jobs:
   set-configuration:
     name: set appservice configuration
     runs-on: [ self-hosted, tutorial-be-dev, vm-user17SelfHost-az-usw3-sbx-001 ]
-    environment: dev
+    environment: uat
     steps:
     - name: Login via Azure CLI
       run: |
@@ -17,7 +17,7 @@ jobs:
     - name: Set Web App Settings
       uses: Azure/appservice-settings@v1
       with:
-        app-name: app-user17-az-usw3-dev-001
+        app-name: app-user17-az-usw3-uat-001
         app-settings-json: |
           [
             {
@@ -27,7 +27,7 @@ jobs:
             },
             {
               "name": "TutorialDatabase__DatabaseName",
-              "value": "dev-tutorial",
+              "value": "uat-tutorial",
               "slotSetting": false
             },
             {
