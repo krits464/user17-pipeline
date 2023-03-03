@@ -17,7 +17,7 @@ env:
 jobs:
   deploy-app-service:
     name: Deploy
-    runs-on: [ self-hosted, user17-sbx, vm-user17SelfHost-az-usw3-sbx-001 ]
+    runs-on: [ self-hosted, tutorial-be-dev, vm-user17SelfHost-az-usw3-sbx-001 ]
     environment:
       name: uat
       url: https://uat-user17-web.azure101.ml/swagger/index.html
@@ -36,10 +36,12 @@ jobs:
         mkdir -p ${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
         tar -zxf ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}.tar.gz -C ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}
         rm ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}-${{ env.GITREF }}.tar.gz
+        
     - name: Login via Azure CLI
       run: |
         az login --identity --username ${{ secrets.AZURE_SELFHOST_USER_MANAGE_IDENTITY_CLIENT_ID }}
         az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
